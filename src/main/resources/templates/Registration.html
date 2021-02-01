@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link rel="stylesheet" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card">
+				<header class="card-header">
+					<a class="float-right btn btn-outline-primary mt-1" th:href="@{/login}">Log in</a>
+					<h4 class="card-title mt-2">Sign up</h4>
+				</header>
+				<article class="card-body">
+					<form th:action="@{/createUser}" method="post" th:object="${user}">
+						<div class="form-row">
+							<div class="col form-group">
+								<label>First name </label>
+								<input class="form-control" th:field="*{firstName}" placeholder="" type="text">
+							</div> <!-- form-group end.// -->
+							<div class="col form-group">
+								<label>Last name</label>
+								<input class="form-control" th:field="*{lastName}" placeholder=" " type="text">
+							</div> <!-- form-group end.// -->
+						</div> <!-- form-row end.// -->
+						
+						<!--<div class="form-group">
+							<label class="form-check form-check-inline">
+								<input class="form-check-input" name="gender" type="radio" value="option1">
+								<span class="form-check-label"> Male </span>
+							</label>
+							<label class="form-check form-check-inline">
+								<input class="form-check-input" name="gender" type="radio" value="option2">
+								<span class="form-check-label"> Female</span>
+							</label>
+						</div> &lt;!&ndash; form-group end.// &ndash;&gt;-->
+						<div class="form-row">
+							<div class="col form-group">
+								<label>Email</label>
+								<input class="form-control" th:field="*{email}" placeholder="" type="email">
+								<small class="form-text text-muted">We'll never share your email with anyone else.</small>
+							</div> <!-- form-group end.// -->
+							<div class="form-group col-md-6">
+								<label>Role</label>
+								<select class="form-control" id="inputState" name="roleName">
+									<option> Choose...</option>
+									<option th:field="*{roleName}" th:each="role : ${T(com.muhtar.domain.RoleName).values()}" th:value="${role}" th:text="${role}"></option>
+								</select>
+							</div> <!-- form-group end.// -->
+						</div> <!-- form-row.// -->
+						
+						
+						<div class="form-row">
+							<div class="col form-group">
+								<label>Password</label>
+								<input th:field="*{password}" class="form-control" type="password">
+							</div> <!-- form-group end.// -->
+							<div class="col form-group">
+								<label>Confirm Password</label>
+								<input th:field="*{password2}" class="form-control" type="password"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-primary btn-block" type="submit"> Register</button>
+						</div> <!-- form-group// -->
+						<small class="text-muted">By clicking the 'Sign Up' button, you confirm that you accept our <br> Terms of use and
+							Privacy Policy.
+						</small>
+					</form>
+				</article> <!-- card-body end .// -->
+				<div class="border-top card-body text-center">Have an account? <a th:href="@{/login}">Log In</a></div>
+			</div> <!-- card.// -->
+		</div> <!-- col.//-->
+	</div> <!-- row.//-->
+</div>
+<!--container end.//-->
+</body>
+</html>
