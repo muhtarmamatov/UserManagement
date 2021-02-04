@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,6 +25,9 @@ public class UserController {
     private UserRegistrationService registrationService;
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private UserService userService;
     @GetMapping(value = "/signup")
     public String signUp(Model model){
         model.addAttribute("user", new User());
@@ -56,4 +60,9 @@ public class UserController {
         }
     }
 
+    @GetMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable(value = "id") Long id){
+        this.userService.deleteEmployeeById(id);
+        return "redirect:/";
+    }
 }
