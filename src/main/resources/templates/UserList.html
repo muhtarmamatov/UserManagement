@@ -10,7 +10,23 @@
 </head>
 <body>
 <div class="container">
-	<div class="row mt-lg-5">
+	<div class="row mt-3">
+		<div class="col">
+			<a class="btn btn-primary btn-sm" th:href="@{/signup}">Add new User</a>
+		</div>
+		<div class="col">
+			<h4>User List</h4>
+		</div>
+		<div class="col-md-3">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="search">
+				<div class="input-group-append">
+					<span class="input-group-text"><i class="fa fa-search"></i> </span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-lg-1">
 		<table class="table align-middle">
 			<thead>
 			<tr>
@@ -18,8 +34,7 @@
 				<th scope="col">First Name</th>
 				<th scope="col">Last Name</th>
 				<th scope="col">Email</th>
-				<th scope="col">Edit</th>
-				<th scope="col">Delete</th>
+				<th scope="col">Actions</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -28,32 +43,21 @@
 				<td th:text="${user.firstName}"></td>
 				<td th:text="${user.lastName}"></td>
 				<td th:text="${user.email}"></td>
-				<td style="width:1%">
-					<p data-placement="top" data-toggle="tooltip" title="Edit">
-						<button class="btn btn-primary btn-xs" data-target="#edit" data-title="Edit" data-toggle="modal">
-							<i class="fa fa-pencil"></i>
-						</button>
-					</p>
-				</td>
-				<td style="width:1%">
-					<p data-placement="top" data-toggle="tooltip" title="Delete">
-						<button class="btn btn-danger btn-xs" data-target="#delete" data-title="Delete" data-toggle="modal">
-							<i class="fa fa-trash-o"></i>
-						</button>
-					</p>
+				<td><a class="btn btn-primary" th:href="@{updateUser/{id}(id=${user.id})}"><i class="fa fa-pencil"></i> </a>
+					<a class="btn btn-danger delBtn" th:href="@{/deleteUser/{id} (id=${user.id})}"><i class="fa fa-trash-o"></i>&nbsp;</a>
 				</td>
 			</tr>
 			</tbody>
 		</table>
-	</div>
+	<!--Pagination block-->
 	<div class="row">
-		<div class="form-group col-md-1">
+		<div class="form-group col-md-3">
 			<select class="form-control pagination" id="pageSizeSelect">
 				<option th:each="pageSize : ${pageSizes}" th:selected="${pageSize} == ${selectedPageSize}" th:text="${pageSize}"
 												th:value="${pageSize}"></option>
 			</select>
 		</div>
-		<div class="form-group col-md-11 pagination-centered" th:if="${users.totalPages != 1}">
+		<div class="form-group col-md-1 pagination-centered" th:if="${users.totalPages != 1}">
 			<ul class="pagination">
 				<li th:class="${users.number == 0} ? disabled">
 					<a class="pageLink page-link" th:href="@{/(pageSize=${selectedPageSize}, page=1)}">&laquo;</a>
@@ -77,9 +81,33 @@
 			</ul>
 		</div>
 	</div>
+	</div>
+	<!-- #Modal for removing users -->
+	<div class="modal fade" id="removeModalCenter" tabindex="-1" role="dialog" aria-labelledby="removeModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="removeModalCenterTitle">Alert message</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p class="alert alert-danger">
+						Are You sure You want to delete this User?
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<a href="" class="btn btn-danger" id="delRef">Delete</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.14.3/umd/popper.min.js}"></script>
 <script th:src="@{js/app.js}"></script>
 </body>
 </html>
