@@ -3,6 +3,7 @@ package com.muhtar.service;
 import com.muhtar.domain.User;
 import com.muhtar.repository.UserRepository;
 import com.muhtar.service.UserService;
+import com.muhtar.utils.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -22,12 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean saveUser(User user) {
-        if (user.getPassword().equals(user.getPassword2())){
-            userRepository.save(user);
-            return true;
-        }
-        return false;
+    public void saveUser(User user) {
+        userRepository.save(user);
     }
 
     @Override
@@ -67,5 +64,10 @@ public class UserServiceImpl implements UserService {
            return userRepository.findByEmailIgnoreCaseContaining(keyword);
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public void deleteEmployeeById(Long id) {
+        userRepository.deleteById(id);
     }
 }

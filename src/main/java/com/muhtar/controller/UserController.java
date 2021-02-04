@@ -2,21 +2,28 @@ package com.muhtar.controller;
 
 import com.muhtar.domain.User;
 import com.muhtar.service.UserService;
+import com.muhtar.service.register.UserRegistrationService;
+import com.muhtar.utils.ResultInfo;
+import com.muhtar.utils.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+
 
 @Controller
 public class UserController {
 
     @Autowired
-    @Qualifier("userService")
-    private UserService userService;
-
+    private UserRegistrationService registrationService;
+    @Autowired
+    private UserValidator userValidator;
     @GetMapping(value = "/signup")
     public String signUp(Model model){
         model.addAttribute("user", new User());
@@ -28,14 +35,25 @@ public class UserController {
         return "Login";
     }
 
-    @PostMapping(value = "/createUser")
-    public String createUser(@ModelAttribute("user")User user){
-        Boolean saveResult = userService.saveUser(user);
-        if (saveResult.equals(true)){
-            return "redirect:/login";
+    @PostMapping("/createUser")
+    public String createUser(@ModelAttribute(name = "user")
+                                         User user,
+                             BindingResult result,
+                             RedirectAttributes attributes,Model model){
+        ResultInfo<User> isUserCreated = registrationService.registerUser(user);
+        userValidator.validate(user,result);
+
+        if(result.hasErrors()){
+            return "Registration";
+        }
+        if(isUserCreated.getStatus() == ResultInfo.Status.ERROR){
+            model.addAttribute("message",isUserCreated.getMessage());
+            return "Registration";
         }
         else {
-            return "/signup";
+            attributes.addFlashAttribute("msgSuccess", isUserCreated.getMessage());
+            return "redirect:/login";
         }
     }
+
 }

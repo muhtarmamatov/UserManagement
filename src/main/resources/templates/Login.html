@@ -13,6 +13,7 @@
 				<header class="card-header">
 					<a class="float-right btn btn-outline-primary mt-1" th:href="@{/signup}">Sign Up</a>
 					<h4 class="card-title mt-2">Log in</h4>
+					<small th:if="${msgSuccess}" th:text="${msgSuccess}" class="text-primary align-self-center"></small>
 				</header>
 				<article class="card-body ">
 					<form>
