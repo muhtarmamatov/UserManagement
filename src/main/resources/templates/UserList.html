@@ -18,8 +18,7 @@
 				<th scope="col">First Name</th>
 				<th scope="col">Last Name</th>
 				<th scope="col">Email</th>
-				<th scope="col">Edit</th>
-				<th scope="col">Delete</th>
+				<th scope="col">Actions</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -28,19 +27,8 @@
 				<td th:text="${user.firstName}"></td>
 				<td th:text="${user.lastName}"></td>
 				<td th:text="${user.email}"></td>
-				<td style="width:1%">
-					<p data-placement="top" data-toggle="tooltip" title="Edit">
-						<button class="btn btn-primary btn-xs" data-target="#edit" data-title="Edit" data-toggle="modal">
-							<i class="fa fa-pencil"></i>
-						</button>
-					</p>
-				</td>
-				<td style="width:1%">
-					<p data-placement="top" data-toggle="tooltip" title="Delete">
-						<button class="btn btn-danger btn-xs" data-target="#delete" data-title="Delete" data-toggle="modal">
-							<i class="fa fa-trash-o"></i>
-						</button>
-					</p>
+				<td><a th:href="@{updateUser/{id}(id=${user.id})}" class="btn btn-primary"><i class="fa fa-pencil"></i> </a>
+					<a th:href="@{deleteUser/{id} (id=${user.id})}" class="btn btn-danger"><i class="fa fa-trash-o"></i> </a>
 				</td>
 			</tr>
 			</tbody>
