@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service("userService")
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -40,8 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
-        return userRepository.getOne(id);
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     @Override
